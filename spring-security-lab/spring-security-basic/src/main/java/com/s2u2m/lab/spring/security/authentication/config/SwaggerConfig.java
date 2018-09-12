@@ -1,10 +1,10 @@
-package com.s2u2m.lab.spring.security.lab01.config;
+package com.s2u2m.lab.spring.security.authentication.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.s2u2m.lab.spring.security.lab01.Lab01App;
+import com.s2u2m.lab.spring.security.authentication.SpringSecurityAuthenticationLab;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -36,7 +36,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title(Lab01App.class.getSimpleName())
+                .title(SpringSecurityAuthenticationLab.class.getSimpleName())
                 .version("1.0")
                 .build();
     }

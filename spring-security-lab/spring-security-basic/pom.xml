@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>spring-security-lab01</artifactId>
+    <artifactId>spring-security-basic</artifactId>
 
 
 </project>

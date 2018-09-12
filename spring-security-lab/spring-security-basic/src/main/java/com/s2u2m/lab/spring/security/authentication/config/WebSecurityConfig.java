@@ -1,7 +1,9 @@
-package com.s2u2m.lab.spring.security.lab01.config;
+package com.s2u2m.lab.spring.security.authentication.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -22,7 +24,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
+            // request ignore authenticate
             .antMatchers("/").permitAll()
+            // request should be authenticated
             .anyRequest().authenticated()
             .and()
             // enable http basic auth
@@ -32,8 +36,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     @Override
     public UserDetailsService userDetailsService() {
-        UserDetails user = User.withUsername("user")
-            .password("password")
+        UserDetails user = User.withUsername("root")
+            .password("root")
             .roles("USER")
             .build();
 
