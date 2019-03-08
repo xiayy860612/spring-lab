@@ -18,7 +18,17 @@ DispatcherServlet会使用WebApplicationContext来对应用进行配置,
 
 ## DispatcherServlet 工作流
 
+![](DispatcherServlet-workflow.png)
 
+DispatcherServlet代理了一系列的HandlerExceptionResolver, 用于处理请求分发和处理时发生的异常.
+
+如果异常没有被HandlerExceptionResolver处理, 则最后会被抛给Servlet Container处理, 最后会分发给error page.
+
+Spring MVC通过ViewResolver和View来渲染model到页面, 可以配置一些列的ViewResolver来处理不同的显示.
+
+ContentNegotiatingViewResolver用于代理其他第三方的ViewResolver, 根据请求的Content-Type来选择合适的ViewResolver.
+
+通过LocaleResolver来处理国际化.
 
 ---
 [Web on Servlet Stack]: https://docs.spring.io/spring-framework/docs/current/spring-framework-reference/web.html

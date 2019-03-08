@@ -9,7 +9,7 @@ include locale, theme, multipart, ...;
 :Get HandlerExecutionChain to handle request
 in execution chain
 (preprocessors, postprocessors, and controllers);
-:Render view if model return;
-
+:Render view if model return, or return directly;
+end
 
 @enduml
