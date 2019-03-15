@@ -1,15 +1,40 @@
 @startuml "DispatchServlet Workflow"
 
 start
+note right
+DispatcherServlet.doService
+end note
+
 :Request come in;
+
 :Get WebApplicationContext
 and Bound to request;
+note right
+WEB_APPLICATION_CONTEXT_ATTRIBUTE
+end note
+
 :Bound resolvers to request,
-include locale, theme, multipart, ...;
+include locale, theme, ...;
+
 :Get HandlerExecutionChain to handle request
 in execution chain
 (preprocessors, postprocessors, and controllers);
+note right
+DispatcherServlet.doDispatch
+end note
+
 :Render view if model return, or return directly;
+end
+
+start
+note right
+DispatcherServlet.doDispatch
+end note
+
+:check Multipart resolver;
+:Get HandlerExecutionChain to handle request;
+
+
 end
 
 @enduml
