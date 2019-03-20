@@ -1,4 +1,47 @@
 @startuml
 
+interface Authentication
+
+interface GrantedAuthority {
+    + String getAuthority();
+}
+
+Authentication "1" *-- "*" GrantedAuthority
+
+interface ConfigAttribute
+
+interface AccessDecisionManager {
+    void decide(Authentication authentication, Object secureObject, Collection<ConfigAttribute> attrs) throws AccessDeniedException;
+    boolean supports(ConfigAttribute attribute);
+    boolean supports(Class clazz);
+}
+
+AccessDecisionManager --> ConfigAttribute
+
+abstract class AbstractAccessDecisionManager
+
+AccessDecisionManager <|.. AbstractAccessDecisionManager
+
+interface AccessDecisionVoter
+
+AbstractAccessDecisionManager "1" *-right- "*" AccessDecisionVoter
+
+AbstractAccessDecisionManager <|-- AffirmativeBased: 1+ access will grant
+
+AccessDecisionVoter <|.. RoleVoter
+
+GrantedAuthority <|.. SimpleGrantedAuthority
+
+abstract class AbstractSecurityInterceptor
+
+AbstractSecurityInterceptor "1" o-- "1" AccessDecisionManager: pre-invocation handling
+
+interface AfterInvocationManager
+
+AbstractSecurityInterceptor "1" o-- "1" AfterInvocationManager: after-invocation handling
+
+AfterInvocationManager <|.. AfterInvocationProviderManager
+
+AfterInvocationProviderManager "1" *-- "*" AfterInvocationProvider
 
 @enduml

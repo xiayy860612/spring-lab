@@ -1,6 +1,9 @@
 # Spring Security
 
+Security Object
 
+- AOP Alliance (MethodInvocation) Security Interceptor
+- AspectJ (JoinPoint) Security Interceptor
 
 ---
 [Spring Security Architecture]: https://spring.io/guides/topicals/spring-security-architecture
