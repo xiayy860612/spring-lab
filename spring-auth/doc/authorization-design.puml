@@ -1,12 +1,24 @@
 @startuml
 
-interface Authentication
+interface Authentication {
+    Collection<? extends GrantedAuthority> getAuthorities();
+}
 
 interface GrantedAuthority {
     + String getAuthority();
 }
 
+note left
+GrantedAuthority
+一般用于Role级别的粗力度权限, 即应用级的权限,
+不用于资源实例的权限
+end note
+
 Authentication "1" *-- "*" GrantedAuthority
+
+interface UserDetailsService
+
+UserDetailsService -right-> GrantedAuthority: generate
 
 interface ConfigAttribute
 
@@ -22,7 +34,11 @@ abstract class AbstractAccessDecisionManager
 
 AccessDecisionManager <|.. AbstractAccessDecisionManager
 
-interface AccessDecisionVoter
+interface AccessDecisionVoter {
+    int vote(Authentication authentication, Object object, Collection<ConfigAttribute> attrs);
+    boolean supports(ConfigAttribute attribute);
+    boolean supports(Class clazz);
+}
 
 AbstractAccessDecisionManager "1" *-right- "*" AccessDecisionVoter
 
