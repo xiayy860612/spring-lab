@@ -1,0 +1,76 @@
+@startuml
+
+interface Authentication
+
+interface AuthenticationManager {
+    Authentication authenticate(Authentication var1) throws AuthenticationException;
+}
+note top
+input not authenticate token,
+if authenticated, return authenticated token,
+if not authenticated, return null and continue authenticate,
+if invalid, throw AuthenticationException
+end note
+
+'AuthenticationManager --> Authentication: input and output
+
+interface Filter
+note top
+create input Authentication from request
+and then used for AuthenticationManager
+end note
+Filter --> Authentication: create input
+Filter -right-> AuthenticationManager: use
+
+abstract class GenericFilterBean
+
+GenericFilterBean -right-|> Filter
+SessionManagementFilter -up-|> GenericFilterBean
+OncePerRequestFilter -right-|> GenericFilterBean
+BasicAuthenticationFilter -up-|> OncePerRequestFilter
+
+class ProviderManager
+
+AuthenticationManager <|-right- ProviderManager
+
+interface AuthenticationProvider {
+    Authentication authenticate(Authentication authentication) throws AuthenticationException;
+}
+note right
+null if not support,
+AuthenticationException if failed,
+Authentication if success
+end note
+
+ProviderManager "1" *-- "*" AuthenticationProvider: contains
+
+abstract class AbstractUserDetailsAuthenticationProvider {
+    # Authentication createSuccessAuthentication(Object principal, Authentication authentication, UserDetails user);
+}
+note left
+convert UserDetails to output Authentication
+end note
+
+AbstractUserDetailsAuthenticationProvider -up-|> AuthenticationProvider
+
+DaoAuthenticationProvider -up-|> AbstractUserDetailsAuthenticationProvider
+
+interface UserDetailsService {
+    UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+}
+
+interface PasswordEncoder {
+    String encode(CharSequence rawPassword);
+    boolean matches(CharSequence rawPassword, String encodedPassword);
+}
+
+DaoAuthenticationProvider "1" *-- "1" UserDetailsService
+DaoAuthenticationProvider "1" *-- "1" PasswordEncoder
+
+interface UserDetails
+
+UserDetailsService -left-> UserDetails: create
+
+AbstractUserDetailsAuthenticationProvider -left-> Authentication: create output
+
+@enduml
